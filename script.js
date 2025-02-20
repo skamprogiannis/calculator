@@ -28,6 +28,17 @@ function clearAll() {
   operator = "";
 }
 
+function getResult() {
+  firstOperand = operate(
+    operator,
+    Number(firstOperand),
+    Number(secondOperand)
+  ).toString();
+  display.textContent = firstOperand;
+  secondOperand = "";
+  operator = "";
+}
+
 display = document.querySelector(".display");
 let firstOperand = "";
 let secondOperand = "";
@@ -38,8 +49,8 @@ numbers = document.querySelectorAll(".number");
 numbers.forEach((number) => {
   number.addEventListener("click", () => {
     if (resultFlag) {
-        clearAll();
-        resultFlag = false;
+      clearAll();
+      resultFlag = false;
     }
 
     if (firstOperand !== "" && operator !== "") {
@@ -54,15 +65,15 @@ numbers.forEach((number) => {
 
 allClear = document.querySelector("#ac");
 allClear.addEventListener("click", () => {
-    clearAll();
+  clearAll();
 });
 
 addition = document.querySelector("#addition");
 addition.addEventListener("click", () => {
   if (firstOperand !== "" && secondOperand !== "") {
-    firstOperand = add(firstOperand, secondOperand);
-    secondOperand = "";
-    display.textContent = firstOperand.toString();
+    getResult();
+    operator = "+";
+    display.textContent += "+";
   } else if (firstOperand !== "" && secondOperand === "" && operator === "") {
     display.textContent += "+";
     operator = "+";
@@ -72,9 +83,6 @@ addition.addEventListener("click", () => {
 
 result = document.querySelector("#result");
 result.addEventListener("click", () => {
-  firstOperand = operate(operator, Number(firstOperand), Number(secondOperand)).toString();
-  display.textContent = firstOperand;
-  secondOperand = "";
-  operator = "";
+  getResult();
   resultFlag = true;
 });
