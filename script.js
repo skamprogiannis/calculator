@@ -114,6 +114,23 @@ backButton.addEventListener("click", () => {
     clearAll();
     resultFlag = false;
   }
-  display.textContent = display.textContent.slice(0, -1);
-  firstOperand = firstOperand.slice(0, -1);
+  if (!operator) {
+    firstOperand = firstOperand.slice(0, -1);
+    display.textContent = firstOperand;
+  } else {
+    secondOperand = secondOperand.slice(0, -1);
+    display.textContent = firstOperand + operator + secondOperand;
+  }
+});
+
+decimalButton = document.querySelector("#decimal");
+decimalButton.addEventListener("click", () => {
+  if (!operator && !firstOperand.includes(".")) {
+    firstOperand += ".";
+    display.textContent = firstOperand;
+  }
+  if (operator && !secondOperand.includes(".")) {
+    secondOperand += ".";
+    display.textContent = firstOperand + operator + secondOperand;
+  }
 });
