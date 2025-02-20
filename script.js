@@ -66,6 +66,7 @@ addition.addEventListener("click", () => {
   } else if (firstOperand !== "" && secondOperand === "" && operator === "") {
     display.textContent += "+";
     operator = "+";
+    resultFlag = false;
   }
 });
 
