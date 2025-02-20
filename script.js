@@ -20,3 +20,13 @@ function operate(o, x, y) {
   if (o === "*") return multiply(x, y);
   if (o === "/") return divide(x, y);
 }
+
+numbers = document.querySelectorAll(".number");
+display = document.querySelector(".display");
+let firstOperand = '';
+numbers.forEach((number) => {
+  number.addEventListener("click", () => {
+    display.textContent = display.textContent + number.textContent;
+    firstOperand += number.textContent;
+  });
+});
