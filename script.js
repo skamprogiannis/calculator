@@ -22,20 +22,44 @@ function operate(o, x, y) {
 }
 
 display = document.querySelector(".display");
-let firstOperand = '';
-let secondOperand = '';
+let firstOperand = "";
+let secondOperand = "";
+let operator = "";
 
 numbers = document.querySelectorAll(".number");
 numbers.forEach((number) => {
   number.addEventListener("click", () => {
-    display.textContent = display.textContent + number.textContent;
-    firstOperand += parseFloat(number.textContent);
+    if (firstOperand !== "" && operator !== "") {
+      display.textContent += number.textContent;
+      secondOperand += number.textContent;
+    } else {
+      display.textContent = display.textContent + number.textContent;
+      firstOperand += number.textContent;
+    }
   });
 });
 
 allClear = document.querySelector("#ac");
 allClear.addEventListener("click", () => {
-    display.textContent = ''
-    firstOperand = ''
-    secondOperand = ''
-})
+  display.textContent = "";
+  firstOperand = "";
+  secondOperand = "";
+});
+
+addition = document.querySelector("#addition");
+addition.addEventListener("click", () => {
+  if (firstOperand !== "" && secondOperand !== "") {
+    firstOperand = add(firstOperand, secondOperand);
+    secondOperand = "";
+    display.textContent = firstOperand.toString();
+  } else if (firstOperand !== "" && secondOperand === "") {
+    display.textContent += "+";
+    operator = "+";
+  }
+});
+
+result = document.querySelector("#result");
+result.addEventListener("click", () => {
+  firstOperand = operate(operator, Number(firstOperand), Number(secondOperand)).toString();
+  display.textContent = firstOperand;
+});
