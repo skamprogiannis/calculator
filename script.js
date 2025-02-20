@@ -45,8 +45,8 @@ let secondOperand = "";
 let operator = "";
 let resultFlag = false;
 
-numbers = document.querySelectorAll(".number");
-numbers.forEach((number) => {
+numberButtons = document.querySelectorAll(".number");
+numberButtons.forEach((number) => {
   number.addEventListener("click", () => {
     if (resultFlag) {
       clearAll();
@@ -63,83 +63,35 @@ numbers.forEach((number) => {
   });
 });
 
-allClear = document.querySelector("#ac");
-allClear.addEventListener("click", () => {
+allClearButton = document.querySelector("#ac");
+allClearButton.addEventListener("click", () => {
   clearAll();
 });
 
-addition = document.querySelector("#addition");
-addition.addEventListener("click", () => {
-  if (firstOperand !== "" && secondOperand !== "") {
-    getResult();
-    operator = "+";
-    display.textContent += "+";
-  } else if (firstOperand !== "" && secondOperand === "" && operator === "") {
-    display.textContent += "+";
-    operator = "+";
-    resultFlag = false;
-  }
+operatorButtons = document.querySelectorAll(".operator");
+operatorButtons.forEach((operatorButton) => {
+  operatorButton.addEventListener("click", () => {
+    if (firstOperand !== "" && secondOperand !== "") {
+      getResult();
+      operator = operatorButton.innerText;
+      display.textContent += operatorButton.innerText;
+    } else if (firstOperand !== "" && secondOperand === "" && operator === "") {
+      display.textContent += operatorButton.innerText;
+      operator = operatorButton.innerText;
+      resultFlag = false;
+    }
     //if an operator has already been pressed, change it to the last one pressed
     if (operator !== "") {
-        display.textContent = display.textContent.slice(0, display.textContent.length - 1) + "+";
-        operator = "+";
+      display.textContent =
+        display.textContent.slice(0, display.textContent.length - 1) +
+        operatorButton.innerText;
+      operator = operatorButton.innerText;
     }
+  });
 });
 
-subtraction = document.querySelector("#subtraction");
-subtraction.addEventListener("click", () => {
-  if (firstOperand !== "" && secondOperand !== "") {
-    getResult();
-    operator = "-";
-    display.textContent += "-";
-  } else if (firstOperand !== "" && secondOperand === "" && operator === "") {
-    display.textContent += "-";
-    operator = "-";
-    resultFlag = false;
-  }
-
-  if (operator !== "") {
-    display.textContent = display.textContent.slice(0, display.textContent.length - 1) + "-";
-    operator = "-";
-}
-});
-
-division = document.querySelector("#division");
-division.addEventListener("click", () => {
-  if (firstOperand !== "" && secondOperand !== "") {
-    getResult();
-    operator = "÷";
-    display.textContent += "÷";
-  } else if (firstOperand !== "" && secondOperand === "" && operator === "") {
-    display.textContent += "÷";
-    operator = "÷";
-    resultFlag = false;
-  }
-  if (operator !== "") {
-    display.textContent = display.textContent.slice(0, display.textContent.length - 1) + "÷";
-    operator = "÷";
-}
-});
-
-multiplication = document.querySelector("#multiplication");
-multiplication.addEventListener("click", () => {
-  if (firstOperand !== "" && secondOperand !== "") {
-    getResult();
-    operator = "×";
-    display.textContent += "×";
-  } else if (firstOperand !== "" && secondOperand === "" && operator === "") {
-    display.textContent += "×";
-    operator = "×";
-    resultFlag = false;
-  }
-  if (operator !== "") {
-    display.textContent = display.textContent.slice(0, display.textContent.length - 1) + "×";
-    operator = "×";
-}
-});
-
-result = document.querySelector("#result");
-result.addEventListener("click", () => {
+resultButton = document.querySelector("#result");
+resultButton.addEventListener("click", () => {
   getResult();
   resultFlag = true;
 });
