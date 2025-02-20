@@ -11,6 +11,7 @@ function multiply(x, y) {
 }
 
 function divide(x, y) {
+  if (x % y === 0) return x / y;
   return (x / y).toFixed(2);
 }
 
@@ -75,11 +76,10 @@ operatorButtons.forEach((operatorButton) => {
     if (firstOperand !== "" && secondOperand !== "") {
       getResult();
       operator = operatorButton.innerText;
-      display.textContent += operatorButton.innerText;
+      display.textContent += operator;
     } else if (firstOperand !== "" && secondOperand === "" && operator === "") {
       operator = operatorButton.innerText;
       display.textContent += operator;
-      resultFlag = false;
     }
     //if an operator has already been pressed, change it to the last one pressed
     if (operator !== "") {
