@@ -96,7 +96,17 @@ resultButton.addEventListener("click", () => {
 });
 
 plusMinusButton = document.querySelector("#unary");
-plusMinusButton.addEventListener("click", () => {});
+plusMinusButton.addEventListener("click", () => {
+  if (!operator) {
+    if (firstOperand[0] !== "-") {
+      firstOperand = "-" + firstOperand;
+      display.textContent = firstOperand;
+    } else {
+      firstOperand = firstOperand.slice(1);
+      display.textContent = firstOperand;
+    }
+  }
+});
 
 backButton = document.querySelector("#back");
 backButton.addEventListener("click", () => {
