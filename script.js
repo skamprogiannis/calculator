@@ -134,3 +134,14 @@ decimalButton.addEventListener("click", () => {
     display.textContent = firstOperand + operator + secondOperand;
   }
 });
+
+percentageButton = document.querySelector("#percentage");
+percentageButton.addEventListener("click", () => {
+  if (!operator) {
+    firstOperand /= 100;
+    display.textContent = firstOperand;
+  } else {
+    secondOperand /= 100;
+    display.textContent = firstOperand + operator + secondOperand;
+  }
+});
