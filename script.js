@@ -21,12 +21,21 @@ function operate(o, x, y) {
   if (o === "/") return divide(x, y);
 }
 
-numbers = document.querySelectorAll(".number");
 display = document.querySelector(".display");
 let firstOperand = '';
+let secondOperand = '';
+
+numbers = document.querySelectorAll(".number");
 numbers.forEach((number) => {
   number.addEventListener("click", () => {
     display.textContent = display.textContent + number.textContent;
-    firstOperand += number.textContent;
+    firstOperand += parseFloat(number.textContent);
   });
 });
+
+allClear = document.querySelector("#ac");
+allClear.addEventListener("click", () => {
+    display.textContent = ''
+    firstOperand = ''
+    secondOperand = ''
+})
