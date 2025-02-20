@@ -19,6 +19,7 @@ function operate(o, x, y) {
   if (o === "-") return subtract(x, y);
   if (o === "×") return multiply(x, y);
   if (o === "÷") return divide(x, y);
+  if (o === "") return x;
 }
 
 function clearAll() {
