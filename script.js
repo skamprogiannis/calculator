@@ -17,8 +17,8 @@ function divide(x, y) {
 function operate(o, x, y) {
   if (o === "+") return add(x, y);
   if (o === "-") return subtract(x, y);
-  if (o === "*") return multiply(x, y);
-  if (o === "/") return divide(x, y);
+  if (o === "×") return multiply(x, y);
+  if (o === "÷") return divide(x, y);
 }
 
 function clearAll() {
@@ -79,6 +79,63 @@ addition.addEventListener("click", () => {
     operator = "+";
     resultFlag = false;
   }
+    //if an operator has already been pressed, change it to the last one pressed
+    if (operator !== "") {
+        display.textContent = display.textContent.slice(0, display.textContent.length - 1) + "+";
+        operator = "+";
+    }
+});
+
+subtraction = document.querySelector("#subtraction");
+subtraction.addEventListener("click", () => {
+  if (firstOperand !== "" && secondOperand !== "") {
+    getResult();
+    operator = "-";
+    display.textContent += "-";
+  } else if (firstOperand !== "" && secondOperand === "" && operator === "") {
+    display.textContent += "-";
+    operator = "-";
+    resultFlag = false;
+  }
+
+  if (operator !== "") {
+    display.textContent = display.textContent.slice(0, display.textContent.length - 1) + "-";
+    operator = "-";
+}
+});
+
+division = document.querySelector("#division");
+division.addEventListener("click", () => {
+  if (firstOperand !== "" && secondOperand !== "") {
+    getResult();
+    operator = "÷";
+    display.textContent += "÷";
+  } else if (firstOperand !== "" && secondOperand === "" && operator === "") {
+    display.textContent += "÷";
+    operator = "÷";
+    resultFlag = false;
+  }
+  if (operator !== "") {
+    display.textContent = display.textContent.slice(0, display.textContent.length - 1) + "÷";
+    operator = "÷";
+}
+});
+
+multiplication = document.querySelector("#multiplication");
+multiplication.addEventListener("click", () => {
+  if (firstOperand !== "" && secondOperand !== "") {
+    getResult();
+    operator = "×";
+    display.textContent += "×";
+  } else if (firstOperand !== "" && secondOperand === "" && operator === "") {
+    display.textContent += "×";
+    operator = "×";
+    resultFlag = false;
+  }
+  if (operator !== "") {
+    display.textContent = display.textContent.slice(0, display.textContent.length - 1) + "×";
+    operator = "×";
+}
 });
 
 result = document.querySelector("#result");
