@@ -44,6 +44,7 @@ allClear.addEventListener("click", () => {
   display.textContent = "";
   firstOperand = "";
   secondOperand = "";
+  operator = "";
 });
 
 addition = document.querySelector("#addition");
@@ -52,7 +53,7 @@ addition.addEventListener("click", () => {
     firstOperand = add(firstOperand, secondOperand);
     secondOperand = "";
     display.textContent = firstOperand.toString();
-  } else if (firstOperand !== "" && secondOperand === "") {
+  } else if (firstOperand !== "" && secondOperand === "" && operator === "") {
     display.textContent += "+";
     operator = "+";
   }
@@ -62,4 +63,5 @@ result = document.querySelector("#result");
 result.addEventListener("click", () => {
   firstOperand = operate(operator, Number(firstOperand), Number(secondOperand)).toString();
   display.textContent = firstOperand;
+  secondOperand = "";
 });
