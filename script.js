@@ -55,11 +55,11 @@ numberButtons.forEach((number) => {
     }
 
     if (firstOperand !== "" && operator !== "") {
-      display.textContent += number.textContent;
       secondOperand += number.textContent;
+      display.textContent += number.textContent;
     } else {
-      display.textContent = display.textContent + number.textContent;
       firstOperand += number.textContent;
+      display.textContent += number.textContent;
     }
   });
 });
@@ -77,16 +77,14 @@ operatorButtons.forEach((operatorButton) => {
       operator = operatorButton.innerText;
       display.textContent += operatorButton.innerText;
     } else if (firstOperand !== "" && secondOperand === "" && operator === "") {
-      display.textContent += operatorButton.innerText;
       operator = operatorButton.innerText;
+      display.textContent += operator;
       resultFlag = false;
     }
     //if an operator has already been pressed, change it to the last one pressed
     if (operator !== "") {
-      display.textContent =
-        display.textContent.slice(0, display.textContent.length - 1) +
-        operatorButton.innerText;
       operator = operatorButton.innerText;
+      display.textContent = display.textContent.slice(0, -1) + operator;
     }
   });
 });
@@ -95,4 +93,17 @@ resultButton = document.querySelector("#result");
 resultButton.addEventListener("click", () => {
   getResult();
   resultFlag = true;
+});
+
+plusMinusButton = document.querySelector("#unary");
+plusMinusButton.addEventListener("click", () => {});
+
+backButton = document.querySelector("#back");
+backButton.addEventListener("click", () => {
+  if (resultFlag) {
+    clearAll();
+    resultFlag = false;
+  }
+  display.textContent = display.textContent.slice(0, -1);
+  firstOperand = firstOperand.slice(0, -1);
 });
