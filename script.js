@@ -56,11 +56,11 @@ numberButtons.forEach((numberButton) => {
     }
 
     if (firstOperand !== "" && operator !== "") {
-      secondOperand += number.textContent;
-      display.textContent += number.textContent;
+      secondOperand += numberButton.textContent;
+      display.textContent += numberButton.textContent;
     } else {
-      firstOperand += number.textContent;
-      display.textContent += number.textContent;
+      firstOperand += numberButton.textContent;
+      display.textContent += numberButton.textContent;
     }
   });
 });
@@ -80,6 +80,7 @@ operatorButtons.forEach((operatorButton) => {
     } else if (firstOperand !== "" && secondOperand === "" && operator === "") {
       operator = operatorButton.innerText;
       display.textContent += operator;
+      resultFlag = false;    
     }
     //if an operator has already been pressed, change it to the last one pressed
     if (operator !== "") {
