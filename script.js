@@ -21,14 +21,27 @@ function operate(o, x, y) {
   if (o === "/") return divide(x, y);
 }
 
+function clearAll() {
+  display.textContent = "";
+  firstOperand = "";
+  secondOperand = "";
+  operator = "";
+}
+
 display = document.querySelector(".display");
 let firstOperand = "";
 let secondOperand = "";
 let operator = "";
+let resultFlag = false;
 
 numbers = document.querySelectorAll(".number");
 numbers.forEach((number) => {
   number.addEventListener("click", () => {
+    if (resultFlag) {
+        clearAll();
+        resultFlag = false;
+    }
+
     if (firstOperand !== "" && operator !== "") {
       display.textContent += number.textContent;
       secondOperand += number.textContent;
@@ -41,10 +54,7 @@ numbers.forEach((number) => {
 
 allClear = document.querySelector("#ac");
 allClear.addEventListener("click", () => {
-  display.textContent = "";
-  firstOperand = "";
-  secondOperand = "";
-  operator = "";
+    clearAll();
 });
 
 addition = document.querySelector("#addition");
@@ -64,4 +74,6 @@ result.addEventListener("click", () => {
   firstOperand = operate(operator, Number(firstOperand), Number(secondOperand)).toString();
   display.textContent = firstOperand;
   secondOperand = "";
+  operator = "";
+  resultFlag = true;
 });
