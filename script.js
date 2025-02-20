@@ -1,4 +1,4 @@
-function multiplyadd(x, y) {
+function add(x, y) {
   return x + y;
 }
 
