@@ -48,8 +48,8 @@ let operator = "";
 let resultFlag = false;
 
 numberButtons = document.querySelectorAll(".number");
-numberButtons.forEach((number) => {
-  number.addEventListener("click", () => {
+numberButtons.forEach((numberButton) => {
+  numberButton.addEventListener("click", () => {
     if (resultFlag) {
       clearAll();
       resultFlag = false;
