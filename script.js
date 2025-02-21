@@ -11,6 +11,10 @@ function multiply(x, y) {
 }
 
 function divide(x, y) {
+  if (y === 0) {
+    resultFlag = true;
+    return "Error";
+  }
   if (x % y === 0) return x / y;
   return (x / y).toFixed(2);
 }

@@ -1,1 +1,2 @@
 # calculator
+This is a simple web-based calculator that performs basic arithmetic operations such as addition, subtraction, multiplication, and division. It also includes additional features like percentage calculation, backspace, clear (AC), plus/minus toggle, and decimal functionality.
