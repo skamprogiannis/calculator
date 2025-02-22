@@ -15,8 +15,7 @@ function divide(x, y) {
     resultFlag = true;
     return "Error";
   }
-  if (x % y === 0) return x / y;
-  return (x / y).toFixed(2);
+  return Math.round(x / y * 100) / 100;
 }
 
 function operate(o, x, y) {
