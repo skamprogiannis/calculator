@@ -1,151 +1,81 @@
-function add(x, y) {
-  return x + y;
-}
+import { Calculator } from "./calculator.js";
 
-function subtract(x, y) {
-  return x - y;
-}
+const calculator = new Calculator();
+const display = document.querySelector("#display");
+const expression = document.querySelector("#expression");
+const keys = [...document.querySelectorAll(".key")];
+const operatorKeys = [...document.querySelectorAll("[data-operator]")];
 
-function multiply(x, y) {
-  return x * y;
-}
+function render() {
+  const state = calculator.getState();
 
-function divide(x, y) {
-  if (y === 0) {
-    resultFlag = true;
-    return "Error";
-  }
-  return Math.round(x / y * 100) / 100;
-}
+  display.textContent = state.display;
+  expression.textContent = state.expression || "\u00a0";
+  display.classList.toggle("display__value--error", state.error);
 
-function operate(o, x, y) {
-  if (o === "+") return add(x, y);
-  if (o === "-") return subtract(x, y);
-  if (o === "×") return multiply(x, y);
-  if (o === "÷") return divide(x, y);
-  if (o === "") return x;
-}
-
-function clearAll() {
-  display.textContent = "";
-  firstOperand = "";
-  secondOperand = "";
-  operator = "";
-}
-
-function getResult() {
-  firstOperand = operate(
-    operator,
-    Number(firstOperand),
-    Number(secondOperand)
-  ).toString();
-  display.textContent = firstOperand;
-  secondOperand = "";
-  operator = "";
-}
-
-display = document.querySelector(".display");
-let firstOperand = "";
-let secondOperand = "";
-let operator = "";
-let resultFlag = false;
-
-numberButtons = document.querySelectorAll(".number");
-numberButtons.forEach((numberButton) => {
-  numberButton.addEventListener("click", () => {
-    if (resultFlag) {
-      clearAll();
-      resultFlag = false;
-    }
-
-    if (firstOperand !== "" && operator !== "") {
-      secondOperand += numberButton.textContent;
-      display.textContent += numberButton.textContent;
-    } else {
-      firstOperand += numberButton.textContent;
-      display.textContent += numberButton.textContent;
-    }
+  operatorKeys.forEach((key) => {
+    key.classList.toggle(
+      "key--selected",
+      state.operator === key.dataset.operator && state.waitingForOperand,
+    );
   });
-});
+}
 
-allClearButton = document.querySelector("#ac");
-allClearButton.addEventListener("click", () => {
-  clearAll();
-});
-
-operatorButtons = document.querySelectorAll(".operator");
-operatorButtons.forEach((operatorButton) => {
-  operatorButton.addEventListener("click", () => {
-    if (firstOperand !== "" && secondOperand !== "") {
-      getResult();
-      operator = operatorButton.innerText;
-      display.textContent += operator;
-    } else if (firstOperand !== "" && secondOperand === "" && operator === "") {
-      operator = operatorButton.innerText;
-      display.textContent += operator;
-      resultFlag = false;    
-    }
-    //if an operator has already been pressed, change it to the last one pressed
-    if (operator !== "") {
-      operator = operatorButton.innerText;
-      display.textContent = display.textContent.slice(0, -1) + operator;
-    }
-  });
-});
-
-resultButton = document.querySelector("#result");
-resultButton.addEventListener("click", () => {
-  getResult();
-  resultFlag = true;
-});
-
-plusMinusButton = document.querySelector("#unary");
-plusMinusButton.addEventListener("click", () => {
-  if (!operator) {
-    if (firstOperand[0] !== "-") {
-      firstOperand = "-" + firstOperand;
-      display.textContent = firstOperand;
-    } else {
-      firstOperand = firstOperand.slice(1);
-      display.textContent = firstOperand;
-    }
-  }
-});
-
-backButton = document.querySelector("#back");
-backButton.addEventListener("click", () => {
-  if (resultFlag) {
-    clearAll();
-    resultFlag = false;
-  }
-  if (!operator) {
-    firstOperand = firstOperand.slice(0, -1);
-    display.textContent = firstOperand;
+function runAction(key) {
+  if (key.dataset.digit !== undefined) {
+    calculator.inputDigit(key.dataset.digit);
+  } else if (key.dataset.operator) {
+    calculator.chooseOperator(key.dataset.operator);
   } else {
-    secondOperand = secondOperand.slice(0, -1);
-    display.textContent = firstOperand + operator + secondOperand;
+    const actions = {
+      backspace: () => calculator.backspace(),
+      clear: () => calculator.clear(),
+      decimal: () => calculator.inputDecimal(),
+      equals: () => calculator.equals(),
+      percentage: () => calculator.percentage(),
+      sign: () => calculator.toggleSign(),
+    };
+
+    actions[key.dataset.action]?.();
   }
+
+  render();
+}
+
+function findKey(pressedKey) {
+  if (/^\d$/.test(pressedKey)) {
+    return document.querySelector(`[data-digit="${pressedKey}"]`);
+  }
+
+  if (pressedKey === "=" || pressedKey === "Enter") {
+    return document.querySelector('[data-action="equals"]');
+  }
+
+  if (pressedKey.toLowerCase() === "c") {
+    return document.querySelector('[data-action="clear"]');
+  }
+
+  return keys.find((key) => key.dataset.key === pressedKey);
+}
+
+function showKeyboardPress(key) {
+  key.classList.add("key--keyboard-active");
+  window.setTimeout(() => key.classList.remove("key--keyboard-active"), 120);
+}
+
+keys.forEach((key) => {
+  key.addEventListener("click", () => runAction(key));
 });
 
-decimalButton = document.querySelector("#decimal");
-decimalButton.addEventListener("click", () => {
-  if (!operator && !firstOperand.includes(".")) {
-    firstOperand += ".";
-    display.textContent = firstOperand;
-  }
-  if (operator && !secondOperand.includes(".")) {
-    secondOperand += ".";
-    display.textContent = firstOperand + operator + secondOperand;
-  }
+document.addEventListener("keydown", (event) => {
+  if (event.ctrlKey || event.metaKey || event.altKey) return;
+
+  const key = findKey(event.key);
+  if (!key) return;
+
+  event.preventDefault();
+  runAction(key);
+  showKeyboardPress(key);
 });
 
-percentageButton = document.querySelector("#percentage");
-percentageButton.addEventListener("click", () => {
-  if (!operator) {
-    firstOperand /= 100;
-    display.textContent = firstOperand;
-  } else {
-    secondOperand /= 100;
-    display.textContent = firstOperand + operator + secondOperand;
-  }
-});
+render();

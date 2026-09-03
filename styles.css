@@ -1,57 +1,264 @@
+:root {
+  color-scheme: light;
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  font-synthesis: none;
+  --page: #eeeae2;
+  --shell: #292a2c;
+  --shell-edge: #3b3c3f;
+  --display: #151617;
+  --number: #38393b;
+  --number-hover: #444548;
+  --utility: #505155;
+  --utility-hover: #5d5e63;
+  --accent: #f4a11a;
+  --accent-hover: #ffb33b;
+  --accent-selected: #fff0d1;
+  --ink: #f9f7f2;
+  --ink-muted: #c9c3b8;
+  --ink-dark: #211606;
+  --focus: #ffd789;
+  --danger: #ffb8a8;
+}
+
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
+
 * {
   margin: 0;
 }
+
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+  min-width: 20rem;
+  min-height: 100vh;
+  min-height: 100svh;
+  background: var(--page);
+  color: var(--ink);
 }
-.calculator {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    width: 336px;
-    overflow: hidden;
-    border: 8px solid rgb(54, 53, 53);
-    border-radius: 2%;
-    background-color: rgb(54, 53, 53);
 
-
-}
-.display {
-    height: 85px;
-    width: 320px;
-    font-size: 4rem;
-    border: 5px solid black;
-    background-color: #a79f9f;
-    text-align: end;
-    margin-bottom: 10px;
+button,
+output {
+  font: inherit;
 }
 
 button {
-    height: 65px;
-    width: 80px;
-    text-align: center;
-    color: white;
-    font-size: 1.5rem;
-    border-radius: 35%;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.operator, #result {
-    background-color: #e68e0b;
+.app-shell {
+  display: grid;
+  min-height: 100vh;
+  min-height: 100svh;
+  place-items: center;
+  padding: clamp(0.75rem, 4vh, 2rem) 1rem;
 }
 
-.number, #decimal {
-    background-color: #2c2a2a;
+.calculator {
+  width: min(100%, 23rem);
+  padding: 1rem;
+  border: 1px solid var(--shell-edge);
+  border-radius: 1rem;
+  background: var(--shell);
+  box-shadow: 0 1.5rem 3.5rem rgb(32 28 20 / 22%);
 }
 
-.misc {
-    background-color: #4e4c4c;
+.calculator__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.25rem 0.25rem 0.9rem;
+}
+
+.calculator__header h1 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.calculator__header span {
+  color: var(--ink-muted);
+  font-size: 0.75rem;
+}
+
+.display {
+  display: flex;
+  min-height: 7.75rem;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+  padding: 1rem 1.125rem;
+  border-radius: 0.75rem;
+  background: var(--display);
+  box-shadow: inset 0 0.2rem 0.5rem rgb(0 0 0 / 35%);
+  text-align: right;
+}
+
+.display__expression,
+.display__value {
+  display: block;
+  max-width: 100%;
+  overflow: hidden;
+  font-variant-numeric: tabular-nums;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.display__expression {
+  min-height: 1.3em;
+  color: var(--ink-muted);
+  font-size: 0.875rem;
+}
+
+.display__value {
+  margin-top: 0.2rem;
+  color: var(--ink);
+  font-size: clamp(2.75rem, 15vw, 4.25rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.display__value--error {
+  color: var(--danger);
+  font-size: 2.5rem;
+}
+
+.keypad {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.625rem;
+  margin-top: 0.875rem;
+}
+
+.key {
+  min-width: 0;
+  min-height: 4rem;
+  border: 0;
+  border-radius: 0.75rem;
+  color: var(--ink);
+  cursor: pointer;
+  font-size: 1.375rem;
+  font-weight: 600;
+  line-height: 1;
+  box-shadow: 0 0.2rem 0 rgb(15 16 17 / 70%);
+  transition:
+    background-color 140ms ease-out,
+    box-shadow 140ms ease-out,
+    transform 140ms ease-out;
+}
+
+.key:hover {
+  background: var(--number-hover);
+}
+
+.key:focus-visible {
+  position: relative;
+  z-index: 1;
+  outline: 0.2rem solid var(--focus);
+  outline-offset: 0.15rem;
+}
+
+.key:active,
+.key--keyboard-active {
+  box-shadow: 0 0.05rem 0 rgb(15 16 17 / 70%);
+  transform: translateY(0.15rem);
+}
+
+.key--number {
+  background: var(--number);
+}
+
+.key--utility {
+  background: var(--utility);
+  font-size: 1.125rem;
+}
+
+.key--utility:hover {
+  background: var(--utility-hover);
+}
+
+.key--operator,
+.key--equals {
+  background: var(--accent);
+  color: var(--ink-dark);
+  box-shadow: 0 0.2rem 0 #9d5e00;
+}
+
+.key--operator:hover,
+.key--equals:hover {
+  background: var(--accent-hover);
+}
+
+.key--operator:active,
+.key--equals:active,
+.key--operator.key--keyboard-active,
+.key--equals.key--keyboard-active {
+  box-shadow: 0 0.05rem 0 #9d5e00;
+}
+
+.key--selected {
+  background: var(--accent-selected);
+}
+
+.keyboard-hint {
+  margin-top: 1rem;
+  color: var(--ink-muted);
+  font-size: 0.75rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
+kbd {
+  padding: 0.08rem 0.3rem;
+  border: 1px solid #5b5c60;
+  border-radius: 0.25rem;
+  background: #343537;
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 0.7rem;
+  box-shadow: 0 0.1rem 0 #171819;
+}
+
+@media (max-width: 23rem) {
+  .app-shell {
+    padding-inline: 0.75rem;
+  }
+
+  .calculator {
+    padding: 0.75rem;
+  }
+
+  .keypad {
+    gap: 0.5rem;
+  }
+
+  .key {
+    min-height: 3.6rem;
+  }
+}
+
+@media (max-height: 40rem) {
+  .app-shell {
+    align-items: start;
+    padding-block: 0.75rem;
+  }
+
+  .display {
+    min-height: 6.25rem;
+  }
+
+  .key {
+    min-height: 3.25rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .key {
+    transition: none;
+  }
 }
